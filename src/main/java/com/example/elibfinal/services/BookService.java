@@ -1,13 +1,16 @@
 package com.example.elibfinal.services;
 
 import com.example.elibfinal.DTO.BookDTO;
+import com.example.elibfinal.exception.CustomException;
 import com.example.elibfinal.models.Book;
 import com.example.elibfinal.models.Shelf;
 import com.example.elibfinal.repository.BookRepository;
 import com.example.elibfinal.repository.ShelfRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -53,11 +56,27 @@ public class BookService {
                 .shelf(shelf)
                 .authors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()))
                 .tags(tagService.getTagsFromStringArray(bookDTO.getTags()))
-                .isAvailable(true)
+                .Available(true)
                 .build();
     }
 
     public void updateBook(BookDTO bookDTO) {
+        bookRepository.save(getUpdatedBook(bookDTO));
+    }
 
+    private Book getUpdatedBook(BookDTO bookDTO) {
+        Book book = bookRepository
+                .findByName(bookDTO.getName())
+                .orElseThrow(() -> new CustomException("book not found"));
+        book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
+        book.setTags(tagService.getTagsFromStringArray(bookDTO.getTags()));
+        return book;
+    }
+
+    public List<BookDTO> getAvailableBooks(Pageable pageable) {
+        return bookRepository.findAllByAvailableIsTrue(pageable)
+                .stream()
+                .map(this::getBookDTOFromBook)
+                .collect(Collectors.toList());
     }
 }

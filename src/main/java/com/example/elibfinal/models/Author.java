@@ -14,7 +14,7 @@ public class Author {
     private Long id;
 
     @Column(name = "author_name")
-    private String authorName;
+    private String name;
     @Column(name = "books")
     @ManyToMany
     private Set<Book> books;

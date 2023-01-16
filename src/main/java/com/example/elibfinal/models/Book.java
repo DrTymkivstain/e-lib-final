@@ -36,5 +36,5 @@ public class Book {
     )
     private  Set<Author> authors;
     @Column(name = "available")
-    private boolean isAvailable;
+    private boolean Available;
 }

@@ -6,6 +6,7 @@ import com.example.elibfinal.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,5 +28,9 @@ private final TagRepository tagRepository;
         return (String[]) tags.stream()
                 .map(tag -> tagRepository.findById(tag.getId()).orElseThrow(() -> new CustomException("tag not found")).getTagName())
                 .toArray();
+    }
+
+    public List<Tag> getAllTags() {
+        return tagRepository.findAll();
     }
 }

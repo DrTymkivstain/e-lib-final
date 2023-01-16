@@ -1,15 +1,15 @@
 package com.example.elibfinal.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Shelf {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
