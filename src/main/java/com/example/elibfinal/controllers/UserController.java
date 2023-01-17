@@ -17,9 +17,8 @@ public class UserController {
     @PostMapping("/reg")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('developers:read')")
-    public HttpStatus saveNewUser(@RequestBody UserDTO userDTO) {
+    public void saveNewUser(@RequestBody UserDTO userDTO) {
         userService.saveNewUser(userDTO);
-        return HttpStatus.CREATED;
     }
     @PostMapping("/admin/user/ban/{id}")
     @PreAuthorize("hasAuthority('developers:write')")
